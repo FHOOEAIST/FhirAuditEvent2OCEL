@@ -1,14 +1,38 @@
-# <Project name >
+# Fhir Audit Event to OCEL
 
-<project description>
+This project contains methods to convert a set of audit events into a OCEL representation.
 
 ## Getting Started
 
-<Write how to get started. e.g. which dependencies are required, how you can build the project. and how you can start.>
+To use the project, simply include the maven dependency on the project.
+
+```xml
+<dependency>
+    <groupId>science.aist</groupId>
+    <artifactId>fhir-audit-event-to-ocel</artifactId>
+    <version>1.0.0</version>
+    <scope>compile</scope> <!-- Note: this is default -->
+</dependency>
+```
+
+This then enables you to access our service class, to convert from AuditEvents to XES Logs.
+
+```java
+// Create a new Fhir service
+var service = new FhirAuditEventsToOCELLogService();
+var resourceAsStream = ...;
+var outputStream = new ByteArrayOutputStream();
+
+// Execute the service method
+service.convertFhirAuditEventsToOCELLog(resourceAsStream, outputStream);
+
+// (Optional - depending on choosen output stream): Get the data out of the stream
+String res = outputStream.toString(StandardCharsets.UTF_8);
+```
 
 ## FAQ
 
-If you have any questions, please checkout our <insert FAQ link here if using maven site, otherwise write a small FAQ section here>.
+If you have any questions, please check out our [FAQ](https://fhooeaist.github.io/FhirAuditEvent2OCEL/faq.html) section.
 
 ## Contributing
 
@@ -28,4 +52,4 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 If you are going to use this project as part of a research paper, we would ask you to reference this project by citing
 it. 
 
-<TODO zenodo doi>
+[![DOI](https://zenodo.org/badge/515568317.svg)](https://zenodo.org/badge/latestdoi/515568317)
