@@ -37,7 +37,7 @@ public class EventTypeRenderer implements TransformationRender<EventType, EventT
         // TODO for the moment we just use the first code
         eventType.getStringOrDateOrInt().add(AttributeTypeHelper.string("activity", currentElement.getCode().getCodingFirstRep().getDisplay()));
         // TODO what do we do with getEnd()?
-        eventType.getStringOrDateOrInt().add(AttributeTypeHelper.date("activity", currentElement.getOccurredPeriod().getStart()));
+        eventType.getStringOrDateOrInt().add(AttributeTypeHelper.date("timestamp", currentElement.getOccurredPeriod().getStart()));
         eventType.getStringOrDateOrInt().add(AttributeTypeHelper.list("omap", Stream.of(
                 currentElement.getBasedOn().stream(),
                         Stream.of(currentElement.getEncounter()),
