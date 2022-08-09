@@ -21,7 +21,7 @@ public class FhirAuditEventsToOCELLogServiceTest {
     public void testConvertFhirAuditEventsToOCELLog() {
         // given
         FhirAuditEventsToOCELLogService service = new FhirAuditEventsToOCELLogService();
-        InputStream resourceAsStream = getClass().getResourceAsStream("/radwfAuditEventBundle.json");
+        InputStream resourceAsStream = getClass().getResourceAsStream("/auditEvents.json");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // when
@@ -30,6 +30,5 @@ public class FhirAuditEventsToOCELLogServiceTest {
         // then
         String res = outputStream.toString(StandardCharsets.UTF_8);
         Assert.assertNotNull(res);
-        System.out.println(res);
     }
 }
