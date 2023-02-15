@@ -2,6 +2,12 @@
 
 The changelog should give you a quick overview of what change between the different Fhir Audit Event to OCEL versions.
 
+## Version 1.1.3 (2023-02-15)
+
+### Changes
+
+- ([10](https://github.com/FHOOEAIST/FhirAuditEvent2OCEL/issues/10)) Support to map patient as object
+
 ## Version 1.1.2 (2022-12-13)
 
 ### Dependencies
