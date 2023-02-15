@@ -46,8 +46,9 @@ public class LogTypeRenderer implements TransformationRender<LogType, LogType, C
 
         ObjectsType objectsType = factory.createObjectsType();
         currentElement.stream()
-                .flatMap(ae -> Stream.of(ae.getBasedOn().stream(), Stream.of(ae.getEncounter()), ae.getAgent().stream().map(AuditEvent.AuditEventAgentComponent::getWho)))
+                .flatMap(ae -> Stream.of(ae.getBasedOn().stream(), Stream.of(ae.getEncounter()), ae.getAgent().stream().map(AuditEvent.AuditEventAgentComponent::getWho), Stream.of(ae.getPatient())))
                 .flatMap(s -> s)
+                .filter(Reference::hasReference)
                 .filter(FilterStreamUtils.distinctByKeys(Reference::getReference))
                 .sorted(Comparator.<Reference, String>comparing(r -> r.getReferenceElement().getResourceType()).thenComparing(r -> r.getReferenceElement().getIdPartAsLong()))
                 .map(ref -> objectRenderer.renderElement(currentElement, ref))

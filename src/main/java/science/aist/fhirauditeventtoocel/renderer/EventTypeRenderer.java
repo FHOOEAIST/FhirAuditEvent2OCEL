@@ -2,6 +2,7 @@ package science.aist.fhirauditeventtoocel.renderer;
 
 import lombok.AllArgsConstructor;
 import org.hl7.fhir.r5.model.AuditEvent;
+import org.hl7.fhir.r5.model.Reference;
 import science.aist.fhirauditeventtoocel.AttributeTypeHelper;
 import science.aist.gtf.transformation.renderer.TransformationRender;
 import science.aist.ocel.model.EventType;
@@ -40,10 +41,13 @@ public class EventTypeRenderer implements TransformationRender<EventType, EventT
         eventType.getStringOrDateOrInt().add(AttributeTypeHelper.list("omap", Stream.of(
                 currentElement.getBasedOn().stream(),
                         Stream.of(currentElement.getEncounter()),
-                        currentElement.getAgent().stream().map(AuditEvent.AuditEventAgentComponent::getWho)
+                        currentElement.getAgent().stream().map(AuditEvent.AuditEventAgentComponent::getWho),
+                        Stream.of(currentElement.getPatient())
                 )
                 .flatMap(s -> s)
-                .map(ref -> AttributeTypeHelper.string("object-id", ref.getReference()))
+                .filter(Reference::hasReference)
+                .map(Reference::getReference)
+                .map(ref -> AttributeTypeHelper.string("object-id", ref))
         ));
         return eventType;
     }
