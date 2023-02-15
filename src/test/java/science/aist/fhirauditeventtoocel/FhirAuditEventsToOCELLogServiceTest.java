@@ -7,8 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.testng.Assert.*;
-
 
 /**
  * <p>Tests {@link FhirAuditEventsToOCELLogService}</p>

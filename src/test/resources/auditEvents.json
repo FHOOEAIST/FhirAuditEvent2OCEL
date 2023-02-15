@@ -34,12 +34,7 @@
       } ],
       "encounter": {
         "reference": "Encounter/3"
-      },
-      "agent": [ {
-        "who": {
-          "reference": "Practitioner/4"
-        }
-      } ]
+      }
     },
     "search": {
       "mode": "match"
@@ -66,9 +61,6 @@
       "basedOn": [ {
         "reference": "CarePlan/2"
       } ],
-      "encounter": {
-        "reference": "Encounter/3"
-      },
       "agent": [ {
         "who": {
           "reference": "Practitioner/4"
@@ -97,9 +89,6 @@
         "text": "Perform mammography"
       },
       "occurredDateTime": "2028-07-25T15:00:40+02:00",
-      "basedOn": [ {
-        "reference": "CarePlan/2"
-      } ],
       "encounter": {
         "reference": "Encounter/3"
       },
@@ -130,18 +119,7 @@
         } ],
         "text": "Determine\nBI-RADS"
       },
-      "occurredDateTime": "2028-07-25T15:20:40+02:00",
-      "basedOn": [ {
-        "reference": "CarePlan/2"
-      } ],
-      "encounter": {
-        "reference": "Encounter/3"
-      },
-      "agent": [ {
-        "who": {
-          "reference": "Practitioner/4"
-        }
-      } ]
+      "occurredDateTime": "2028-07-25T15:20:40+02:00"
     },
     "search": {
       "mode": "match"
@@ -170,6 +148,9 @@
       } ],
       "encounter": {
         "reference": "Encounter/3"
+      },
+      "patient": {
+        "reference": "Patient/5"
       },
       "agent": [ {
         "who": {
