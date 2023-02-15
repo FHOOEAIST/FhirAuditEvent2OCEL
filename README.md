@@ -1,6 +1,9 @@
 # Fhir Audit Event to OCEL
 
-This project contains methods to convert a set of audit events into a OCEL representation.
+This project contains methods to convert a set of Fhir R5 AuditEvents into a OCEL representation. The transformation is 
+shown in the following image:
+
+![Transformation](documentation/transformation.png)
 
 ## Getting Started
 
