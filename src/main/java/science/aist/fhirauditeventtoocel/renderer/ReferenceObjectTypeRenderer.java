@@ -9,6 +9,7 @@ import science.aist.ocel.model.ObjectFactory;
 import science.aist.ocel.model.ObjectType;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * <p>Renderer to create {@link ObjectType}s out of {@link Reference}s</p>
@@ -33,8 +34,26 @@ public class ReferenceObjectTypeRenderer implements TransformationRender<ObjectT
 
     @Override
     public ObjectType mapProperties(ObjectType objectType, Collection<AuditEvent> auditEvents, Reference currentElement) {
-        objectType.getStringOrDateOrInt().add(AttributeTypeHelper.string("id", currentElement.getReference()));
+        objectType.getStringOrDateOrInt().add(AttributeTypeHelper.string("id", extractKey(currentElement)));
         objectType.getStringOrDateOrInt().add(AttributeTypeHelper.string("type", currentElement.getReferenceElement().getResourceType()));
         return objectType;
+    }
+
+    public static String extractKey(Reference currentElement) {
+        if (currentElement.hasReference()) {
+            return currentElement.getReference();
+        }
+        if (currentElement.hasIdentifier()) {
+            return currentElement.getIdentifier().getValue();
+        }
+        return null;
+    }
+
+    public static Stream<Stream<Reference>> getReferenceStream(AuditEvent ae) {
+        return Stream.of(ae.getBasedOn().stream(),
+                Stream.of(ae.getEncounter()),
+                ae.getAgent().stream().filter(AuditEvent.AuditEventAgentComponent::hasWho).map(AuditEvent.AuditEventAgentComponent::getWho),
+                ae.getEntity().stream().filter(AuditEvent.AuditEventEntityComponent::hasWhat).map(AuditEvent.AuditEventEntityComponent::getWhat),
+                Stream.of(ae.getPatient()));
     }
 }

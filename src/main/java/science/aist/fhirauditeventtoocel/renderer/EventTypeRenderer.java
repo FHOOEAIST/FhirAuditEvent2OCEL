@@ -9,6 +9,7 @@ import science.aist.ocel.model.EventType;
 import science.aist.ocel.model.ObjectFactory;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -35,20 +36,23 @@ public class EventTypeRenderer implements TransformationRender<EventType, EventT
     @Override
     public EventType mapProperties(EventType eventType, Collection<AuditEvent> auditEvents, AuditEvent currentElement) {
         eventType.getStringOrDateOrInt().add(AttributeTypeHelper.string("id", currentElement.getId()));
-        // TODO for the moment we just use the first code
-        eventType.getStringOrDateOrInt().add(AttributeTypeHelper.string("activity", currentElement.getCode().getCodingFirstRep().getDisplay()));
-        eventType.getStringOrDateOrInt().add(AttributeTypeHelper.date("timestamp", currentElement.getOccurredDateTimeType().getValue()));
-        eventType.getStringOrDateOrInt().add(AttributeTypeHelper.list("omap", Stream.of(
-                currentElement.getBasedOn().stream(),
-                        Stream.of(currentElement.getEncounter()),
-                        currentElement.getAgent().stream().map(AuditEvent.AuditEventAgentComponent::getWho),
-                        Stream.of(currentElement.getPatient())
-                )
-                .flatMap(s -> s)
-                .filter(Reference::hasReference)
-                .map(Reference::getReference)
-                .map(ref -> AttributeTypeHelper.string("object-id", ref))
+
+        if (currentElement.getCode() != null && currentElement.getCode().getCodingFirstRep() != null) {
+            eventType.getStringOrDateOrInt().add(AttributeTypeHelper.string("activity", currentElement.getCode().getCodingFirstRep().getDisplay()));
+        }
+
+        if (currentElement.getOccurredDateTimeType() != null) {
+            eventType.getStringOrDateOrInt().add(AttributeTypeHelper.date("timestamp", currentElement.getOccurredDateTimeType().getValue()));
+        }
+
+        eventType.getStringOrDateOrInt().add(AttributeTypeHelper.list("omap", ReferenceObjectTypeRenderer.getReferenceStream(currentElement)
+                        .flatMap(s -> s)
+                        .map(ReferenceObjectTypeRenderer::extractKey)
+                        .distinct()
+                        .filter(Objects::nonNull)
+                        .map(ref -> AttributeTypeHelper.string("object-id", ref))
         ));
+
         return eventType;
     }
 }
