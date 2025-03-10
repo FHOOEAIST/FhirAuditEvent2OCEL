@@ -35,7 +35,9 @@ public class ReferenceObjectTypeRenderer implements TransformationRender<ObjectT
     @Override
     public ObjectType mapProperties(ObjectType objectType, Collection<AuditEvent> auditEvents, Reference currentElement) {
         objectType.getStringOrDateOrInt().add(AttributeTypeHelper.string("id", extractKey(currentElement)));
-        objectType.getStringOrDateOrInt().add(AttributeTypeHelper.string("type", currentElement.getReferenceElement().getResourceType()));
+        if (currentElement.hasReferenceElement() && currentElement.getReferenceElement().hasResourceType()) {
+            objectType.getStringOrDateOrInt().add(AttributeTypeHelper.string("type", currentElement.getReferenceElement().getResourceType()));
+        }
         return objectType;
     }
 
